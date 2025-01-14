@@ -13,7 +13,6 @@ import {
   Legend,
 } from 'chart.js'
 import { addDays, addWeeks, addMonths, format, eachDayOfInterval, eachWeekOfInterval, eachMonthOfInterval } from 'date-fns'
-import { formatNumber } from "@/lib/utils"
 import { useTheme } from 'next-themes'
 
 ChartJS.register(
@@ -71,15 +70,42 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
     return { labels, data, xAxisTitle, diffDays }
   }, [dateRange])
 
+  const gradient = useMemo(() => {
+    const ctx = document.createElement('canvas').getContext('2d');
+    if (!ctx) return '#8B2F5E';
+    
+    const gradientFill = ctx.createLinearGradient(0, 0, 0, 400);
+    gradientFill.addColorStop(0, '#8B2F5E'); // Deep magenta/plum
+    gradientFill.addColorStop(1, '#F25757'); // Coral red
+    return gradientFill;
+  }, []);
+
   const chartData = {
     labels,
     datasets: [
       {
         label: 'Spending',
         data,
-        backgroundColor: '#A0AEC0', // Lighter grey color
+        backgroundColor: '#4A90E2',
+        // Other harmonious options from the breakdown:
+        // '#8B2F5E' - Deep magenta/plum
+        // '#F25757' - Coral red
+        // '#F2994A' - Orange/coral
+        // '#F2D94A' - Bright yellow
+        // Additional harmonious options:
+        // '#4A90E2' - Sky blue
+        // '#9B51E0' - Purple
+        // '#219653' - Forest green
+        // '#EB5757' - Red
       },
     ],
+  }
+
+  const formatChartNumber = (value: number) => {
+    if (value >= 1000) {
+      return (value / 1000).toFixed(1) + 'k';
+    }
+    return value.toString();
   }
 
   const options = {
@@ -104,7 +130,7 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
         beginAtZero: true,
         ticks: {
           callback: function(value) {
-            return formatNumber(value);
+            return formatChartNumber(value);
           }
         },
         suggestedMax: diffDays <= 31 ? 500 : 7000,
@@ -137,12 +163,5 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
       </CardContent>
     </Card>
   )
-}
-
-function formatNumber(num: number): string {
-  if (num >= 1000) {
-    return (num / 1000).toFixed(1) + 'k';
-  }
-  return num.toString();
 }
 

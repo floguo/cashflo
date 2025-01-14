@@ -4,10 +4,14 @@ import './globals.css'
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/theme-provider'
 
-const instrumentSans = Instrument_Sans({ subsets: ['latin'] })
+const instrumentSans = Instrument_Sans({ 
+  subsets: ['latin'],
+  variable: '--font-instrument-sans',
+  weight: ['400', '500'],
+})
 
 export const metadata: Metadata = {
-  title: 'Finance Manager',
+  title: 'cashflo',
   description: 'Manage your personal finances with ease',
 }
 
@@ -20,7 +24,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn(
         "min-h-screen bg-background font-sans antialiased",
-        instrumentSans.className
+        instrumentSans.variable
       )}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           {children}
