@@ -77,7 +77,9 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
       {
         label: 'Spending',
         data,
-        backgroundColor: '#A0AEC0', // Lighter grey color
+        backgroundColor: '#A0AEC0',
+        borderRadius: 4,
+        borderSkipped: false,
       },
     ],
   }

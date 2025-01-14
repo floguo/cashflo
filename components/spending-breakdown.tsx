@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Pie } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { useTheme } from 'next-themes'
-import { formatNumber } from "@/lib/utils"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -53,15 +52,19 @@ export function SpendingBreakdown({ expenses, dateRange }: SpendingBreakdownProp
   const options = {
     responsive: true,
     animation: {
-      duration: 150, // Faster animations
+      duration: 800,
+      easing: 'easeOutQuart',
     },
+    cutout: '65%',
+    radius: '90%',
     plugins: {
       legend: {
         position: 'right' as const,
         labels: {
           usePointStyle: true,
           padding: 20,
-          color: theme === 'dark' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+          color: 'rgb(0, 0, 0)',
+          borderRadius: 4,
         },
       },
       tooltip: {

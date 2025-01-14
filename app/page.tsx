@@ -8,6 +8,7 @@ import { SpendingBreakdown } from '@/components/spending-breakdown'
 import { DateRangeSelector } from '@/components/date-range-selector'
 import { Skeleton } from '@/components/ui/skeleton'
 import { NumericFormat } from 'react-number-format'
+import { TaxAccountsWidget, type TaxAccount } from '@/components/tax-accounts-widget'
 
 interface Expense {
   category: string;
@@ -99,6 +100,34 @@ const generateMockExpenses = (from: Date, to: Date): Expense[] => {
   return expenses;
 };
 
+const taxAccounts = [
+  {
+    type: 'TFSA',
+    balance: 45000,
+    contributionLimit: 88000,
+    contributedThisYear: 6000,
+    yearlyLimit: 6500,
+    lifetimeContributions: 65000,
+  },
+  {
+    type: 'RRSP',
+    balance: 120000,
+    contributionLimit: 52000,
+    contributedThisYear: 15000,
+    yearlyLimit: 30000,
+    lifetimeContributions: 95000,
+    carryForward: 22000,
+  },
+  {
+    type: 'FHSA',
+    balance: 8000,
+    contributionLimit: 40000,
+    contributedThisYear: 8000,
+    yearlyLimit: 8000,
+    lifetimeContributions: 8000,
+  }
+]
+
 export default function DashboardPage() {
   const [dateRange, setDateRange] = useState({ from: new Date('2023-05-01'), to: new Date() })
   const mockExpenses = useMemo(() => generateMockExpenses(dateRange.from, dateRange.to), [dateRange]);
@@ -150,13 +179,16 @@ export default function DashboardPage() {
         <div className="mb-6">
           <DateRangeSelector onRangeChange={setDateRange} />
         </div>
-        <div className="grid w-full gap-4 md:grid-cols-2">
+        <div className="grid w-full gap-4 md:grid-cols-2 mb-6">
           <Suspense fallback={<ChartSkeleton />}>
             <SpendingChart dateRange={dateRange} />
           </Suspense>
           <Suspense fallback={<ChartSkeleton />}>
             <SpendingBreakdown expenses={mockExpenses} dateRange={dateRange} />
           </Suspense>
+        </div>
+        <div>
+          <TaxAccountsWidget accounts={taxAccounts as TaxAccount[]} />
         </div>
       </div>
     </DashboardLayout>
