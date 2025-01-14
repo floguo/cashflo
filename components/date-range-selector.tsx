@@ -52,7 +52,7 @@ export function DateRangeSelector({ onRangeChange }: DateRangeSelectorProps) {
 
   return (
     <div className="flex items-center justify-between w-full">
-      <h2 className="text-lg font-bold">Trends</h2>
+      <h2 className="text-lg">Trends</h2>
       <div className="flex items-center space-x-2">
         {['week', 'month', '6months', 'year'].map((range) => (
           <Button

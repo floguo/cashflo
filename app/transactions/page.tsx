@@ -152,7 +152,7 @@ export default function TransactionsPage() {
     <DashboardLayout>
       <div className="w-full space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Transactions</h1>
+          <h1 className="text-3xl  ">Transactions</h1>
           <Button>Import CSV</Button>
         </div>
         <div className="flex items-center py-4 space-x-4">

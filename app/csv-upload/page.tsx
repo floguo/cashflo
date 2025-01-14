@@ -21,7 +21,7 @@ export default function CSVUploadPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <h1 className="text-3xl font-bold">CSV Upload and Visualization</h1>
+        <h1 className="text-3xl  ">CSV Upload and Visualization</h1>
         <Card>
           <CardHeader>
             <CardTitle>Upload CSV</CardTitle>

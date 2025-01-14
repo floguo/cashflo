@@ -14,7 +14,7 @@ export default function TaxDocumentsPage() {
     <DashboardLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Tax Documents</h1>
+          <h1 className="text-3xl  ">Tax Documents</h1>
           <Button>Upload Document</Button>
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

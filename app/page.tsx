@@ -9,6 +9,12 @@ import { DateRangeSelector } from '@/components/date-range-selector'
 import { Skeleton } from '@/components/ui/skeleton'
 import { NumericFormat } from 'react-number-format'
 
+interface Expense {
+  category: string;
+  amount: number;
+  date: Date;
+}
+
 function ChartSkeleton() {
   return (
     <Card>
@@ -47,9 +53,9 @@ function FormattedNumber({ value, prefix = '' }: { value: number, prefix?: strin
   )
 }
 
-const generateMockExpenses = (from: Date, to: Date) => {
+const generateMockExpenses = (from: Date, to: Date): Expense[] => {
   const categories = ['Housing', 'Food', 'Transportation', 'Utilities', 'Entertainment'];
-  const expenses = [];
+  const expenses: Expense[] = [];
   const daysDiff = Math.round((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24));
   
   // Determine the base multiplier based on the time scale
@@ -61,10 +67,9 @@ const generateMockExpenses = (from: Date, to: Date) => {
 
   let totalAmount = 0;
   categories.forEach(category => {
-    let amount;
+    let amount = 0;  // Initialize with default value
     switch (category) {
       case 'Housing':
-        // Housing is roughly 1/3 of the total
         amount = (Math.random() * 500 + 1500) * baseMultiplier;
         break;
       case 'Food':
@@ -101,14 +106,14 @@ export default function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="w-full space-y-6">
-        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+        <h1 className="text-3xl mb-6">Dashboard</h1>
         <div className="grid w-full gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Total Balance</CardTitle>
+              <CardTitle className="text-sm text-muted-foreground">Total Balance</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-2xl">
                 <FormattedNumber value={12345.67} prefix="$" />
               </div>
             </CardContent>
@@ -118,7 +123,7 @@ export default function DashboardPage() {
               <CardTitle className="text-sm font-medium text-muted-foreground">Spending Trends</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-2xl">
                 <FormattedNumber value={2345.67} prefix="$" />
               </div>
             </CardContent>
@@ -128,7 +133,7 @@ export default function DashboardPage() {
               <CardTitle className="text-sm font-medium text-muted-foreground">Net Worth</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-2xl">
                 <FormattedNumber value={98765.43} prefix="$" />
               </div>
             </CardContent>
@@ -138,7 +143,7 @@ export default function DashboardPage() {
               <CardTitle className="text-sm font-medium text-muted-foreground">Tax Documents</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">7</div>
+              <div className="text-2xl">7</div>
             </CardContent>
           </Card>
         </div>

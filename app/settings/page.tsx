@@ -30,7 +30,7 @@ export default function SettingsPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6 w-full">
-        <h1 className="text-3xl font-bold">Settings</h1>
+        <h1 className="text-3xl  ">Settings</h1>
         
         <div className="grid gap-6">
           <Card>
