@@ -51,8 +51,10 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
       xAxisTitle = 'Day of Week'
     } else if (diffDays <= 31) {
       // 1 month or less
-      labels = eachDayOfInterval({ start: from, end: to }).map((date: Date) => format(date, 'd'))
-      data = labels.map(() => Math.floor(Math.random() * 300) + 100) // Daily spend between $100 and $400
+      labels = eachDayOfInterval({ start: from, end: to }).map((date: Date) => 
+        format(date, diffDays > 14 ? 'MMM d' : 'd')
+      ).filter((_, i) => i % 2 === 0)  // Show every other date
+      data = labels.map(() => Math.floor(Math.random() * 300) + 100)
       xAxisTitle = 'Day of Month'
     } else if (diffDays <= 183) {
       // 6 months or less
@@ -92,6 +94,23 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
       title: {
         display: false,
       },
+      tooltip: {
+        backgroundColor: 'rgb(255, 255, 255)',
+        titleColor: 'rgb(0, 0, 0)',
+        bodyColor: 'rgb(0, 0, 0)',
+        bodyFont: {
+          family: 'var(--font-instrument-sans)',
+        },
+        padding: 12,
+        borderColor: 'rgb(229, 231, 235)',
+        borderWidth: 1,
+        displayColors: false,
+        callbacks: {
+          label: function(context: any) {
+            return `$${formatNumber(context.parsed.y)}`;
+          }
+        }
+      }
     },
     layout: {
       padding: {
@@ -104,7 +123,7 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
         beginAtZero: true,
         ticks: {
           callback: function(this: any, tickValue: number | string) {
-            return formatNumber(Number(tickValue));
+            return `$${formatNumber(Number(tickValue))}`;
           }
         },
         suggestedMax: diffDays <= 31 ? 500 : 7000,
@@ -114,9 +133,9 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
       },
       x: {
         ticks: {
-          maxRotation: 0,
+          maxRotation: diffDays > 14 ? 45 : 0,  // Rotate labels for better fit
           autoSkip: true,
-          maxTicksLimit: 10,
+          maxTicksLimit: diffDays <= 31 ? 15 : 10,  // Show more labels for month view
         },
         grid: {
           display: false,

@@ -16,8 +16,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="w-64 flex-shrink-0">
           <AppSidebar currentPath={pathname} />
         </div>
-        <main className="flex-1 overflow-y-auto w-full">
-          <div className="w-full h-full p-6">
+        <main className="w-[calc(100%-256px)] overflow-y-auto">
+          <div className="mx-auto p-6">
             {children}
           </div>
         </main>

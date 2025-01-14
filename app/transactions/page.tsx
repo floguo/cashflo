@@ -79,6 +79,7 @@ export default function TransactionsPage() {
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className="w-full justify-start"
           >
             Date
             {column.getIsSorted() === 'asc' ? (
@@ -91,10 +92,12 @@ export default function TransactionsPage() {
           </Button>
         )
       },
+      size: 150,
     },
     {
       accessorKey: 'description',
       header: 'Description',
+      size: 400,
     },
     {
       accessorKey: 'amount',
@@ -103,6 +106,7 @@ export default function TransactionsPage() {
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className="w-full justify-start"
           >
             Amount
             {column.getIsSorted() === 'asc' ? (
@@ -115,6 +119,7 @@ export default function TransactionsPage() {
           </Button>
         )
       },
+      size: 150,
       cell: ({ row }) => {
         const amount = parseFloat(row.getValue('amount'))
         return (
@@ -127,6 +132,7 @@ export default function TransactionsPage() {
     {
       accessorKey: 'category',
       header: 'Category',
+      size: 200,
     },
   ]
 
@@ -142,6 +148,7 @@ export default function TransactionsPage() {
       sorting,
       columnFilters,
     },
+    columnResizeMode: 'onChange',
   })
 
   const categories = useMemo(() => {

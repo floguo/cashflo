@@ -59,7 +59,7 @@ const generateMockExpenses = (from: Date, to: Date): Expense[] => {
   const daysDiff = Math.round((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24));
   
   // Determine the base multiplier based on the time scale
-  let baseMultiplier;
+  let baseMultiplier: number;
   if (daysDiff <= 7) baseMultiplier = 1;
   else if (daysDiff <= 31) baseMultiplier = 4;
   else if (daysDiff <= 183) baseMultiplier = 24;

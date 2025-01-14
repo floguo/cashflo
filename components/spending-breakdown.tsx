@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Pie } from 'react-chartjs-2'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { useTheme } from 'next-themes'
+import { formatNumber } from "@/lib/utils"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -51,6 +52,9 @@ export function SpendingBreakdown({ expenses, dateRange }: SpendingBreakdownProp
 
   const options = {
     responsive: true,
+    animation: {
+      duration: 150, // Faster animations
+    },
     plugins: {
       legend: {
         position: 'right' as const,
@@ -60,10 +64,46 @@ export function SpendingBreakdown({ expenses, dateRange }: SpendingBreakdownProp
           color: theme === 'dark' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
         },
       },
-      title: {
-        display: false,
-      },
-    },
+      tooltip: {
+        animation: {
+          duration: 150,
+          easing: 'easeOutQuart',
+        },
+        backgroundColor: 'rgb(255, 255, 255)',
+        titleColor: 'rgb(0, 0, 0)',
+        bodyColor: 'rgb(0, 0, 0)',
+        bodyFont: {
+          family: 'var(--font-instrument-sans)',
+        },
+        padding: 12,
+        borderColor: 'rgb(229, 231, 235)',
+        borderWidth: 1,
+        displayColors: true,
+        callbacks: {
+          label: function(context: any) {
+            return `$${Math.round(context.raw).toLocaleString()}`;
+          }
+        },
+        transitions: [
+          {
+            show: {
+              animations: {
+                properties: ['opacity', 'transform'],
+                from: { opacity: 0, transform: 'scale(0.95)' },
+                to: { opacity: 1, transform: 'scale(1)' }
+              }
+            },
+            hide: {
+              animations: {
+                properties: ['opacity', 'transform'],
+                from: { opacity: 1, transform: 'scale(1)' },
+                to: { opacity: 0, transform: 'scale(0.95)' }
+              }
+            }
+          }
+        ]
+      }
+    }
   }
 
   return (
