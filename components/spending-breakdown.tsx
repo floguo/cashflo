@@ -111,8 +111,17 @@ export function SpendingBreakdown({ expenses, dateRange }: SpendingBreakdownProp
       <CardHeader>
         <CardTitle>Category Breakdown</CardTitle>
       </CardHeader>
-      <CardContent>
-        <Pie data={data} options={options} />
+      <CardContent className="h-[400px]">
+        <div className="relative w-full h-full">
+          <Pie 
+            options={{
+              ...options,
+              maintainAspectRatio: false,
+              responsive: true,
+            }} 
+            data={data}
+          />
+        </div>
       </CardContent>
     </Card>
   )

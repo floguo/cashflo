@@ -9,7 +9,6 @@ import { Switch } from '@/components/ui/switch'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { DarkModeToggle } from '@/components/dark-mode-toggle'
 
 export default function SettingsPage() {
   const [emailNotifications, setEmailNotifications] = useState(true)
@@ -39,10 +38,6 @@ export default function SettingsPage() {
               <CardDescription>Manage your account settings and preferences.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="flex items-center justify-between">
-                <DarkModeToggle />
-              </div>
-              
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label htmlFor="email-notifications">Email Notifications</Label>

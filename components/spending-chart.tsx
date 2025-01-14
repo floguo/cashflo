@@ -14,7 +14,6 @@ import {
 } from 'chart.js'
 import { addDays, addWeeks, addMonths, format, eachDayOfInterval, eachWeekOfInterval, eachMonthOfInterval } from 'date-fns'
 import { formatNumber } from "@/lib/utils"
-import { useTheme } from 'next-themes'
 
 ChartJS.register(
   CategoryScale,
@@ -35,7 +34,6 @@ type SpendingChartProps = {
 }
 
 export function SpendingChart({ dateRange }: SpendingChartProps) {
-  const { theme } = useTheme()
   const { labels, data, xAxisTitle, diffDays } = useMemo(() => {
     const { from, to } = dateRange
     const diffDays = Math.round((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24))
@@ -145,13 +143,20 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
   }
 
   return (
-    <Card className="w-full max-h-[500px]">
+    <Card className="w-full">
       <CardHeader className="pb-4">
         <CardTitle>Your Spending</CardTitle>
       </CardHeader>
-      <CardContent className="pt-4 h-[calc(100%-5rem)]">
-        <div className="h-full">
-          <Bar options={options} data={chartData} />
+      <CardContent className="h-[400px]">
+        <div className="relative w-full h-full">
+          <Bar 
+            options={{
+              ...options,
+              maintainAspectRatio: false,
+              responsive: true,
+            }} 
+            data={chartData}
+          />
         </div>
       </CardContent>
     </Card>
