@@ -13,6 +13,7 @@ import {
   Legend,
 } from 'chart.js'
 import { addDays, addWeeks, addMonths, format, eachDayOfInterval, eachWeekOfInterval, eachMonthOfInterval } from 'date-fns'
+import { formatNumber } from "@/lib/utils"
 import { useTheme } from 'next-themes'
 
 ChartJS.register(
@@ -45,12 +46,12 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
 
     if (diffDays <= 7) {
       // 1 week or less
-      labels = eachDayOfInterval({ start: from, end: to }).map(date => format(date, 'EEE'))
+      labels = eachDayOfInterval({ start: from, end: to }).map((date: Date) => format(date, 'EEE'))
       data = labels.map(() => Math.floor(Math.random() * 200) + 50) // Daily spend between $50 and $250
       xAxisTitle = 'Day of Week'
     } else if (diffDays <= 31) {
       // 1 month or less
-      labels = eachDayOfInterval({ start: from, end: to }).map(date => format(date, 'd'))
+      labels = eachDayOfInterval({ start: from, end: to }).map((date: Date) => format(date, 'd'))
       data = labels.map(() => Math.floor(Math.random() * 300) + 100) // Daily spend between $100 and $400
       xAxisTitle = 'Day of Month'
     } else if (diffDays <= 183) {
@@ -70,42 +71,15 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
     return { labels, data, xAxisTitle, diffDays }
   }, [dateRange])
 
-  const gradient = useMemo(() => {
-    const ctx = document.createElement('canvas').getContext('2d');
-    if (!ctx) return '#8B2F5E';
-    
-    const gradientFill = ctx.createLinearGradient(0, 0, 0, 400);
-    gradientFill.addColorStop(0, '#8B2F5E'); // Deep magenta/plum
-    gradientFill.addColorStop(1, '#F25757'); // Coral red
-    return gradientFill;
-  }, []);
-
   const chartData = {
     labels,
     datasets: [
       {
         label: 'Spending',
         data,
-        backgroundColor: '#4A90E2',
-        // Other harmonious options from the breakdown:
-        // '#8B2F5E' - Deep magenta/plum
-        // '#F25757' - Coral red
-        // '#F2994A' - Orange/coral
-        // '#F2D94A' - Bright yellow
-        // Additional harmonious options:
-        // '#4A90E2' - Sky blue
-        // '#9B51E0' - Purple
-        // '#219653' - Forest green
-        // '#EB5757' - Red
+        backgroundColor: '#A0AEC0', // Lighter grey color
       },
     ],
-  }
-
-  const formatChartNumber = (value: number) => {
-    if (value >= 1000) {
-      return (value / 1000).toFixed(1) + 'k';
-    }
-    return value.toString();
   }
 
   const options = {
@@ -129,8 +103,8 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
       y: {
         beginAtZero: true,
         ticks: {
-          callback: function(value) {
-            return formatChartNumber(value);
+          callback: function(this: any, tickValue: number | string) {
+            return formatNumber(Number(tickValue));
           }
         },
         suggestedMax: diffDays <= 31 ? 500 : 7000,
@@ -164,4 +138,3 @@ export function SpendingChart({ dateRange }: SpendingChartProps) {
     </Card>
   )
 }
-
