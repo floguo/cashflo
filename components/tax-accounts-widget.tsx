@@ -56,20 +56,20 @@ export function TaxAccountsWidget({ accounts }: { accounts: TaxAccount[] }) {
       <div className="grid grid-cols-3 gap-4">
         {accounts.map((account) => {
           const styles = ACCOUNT_STYLES[account.type]
-          const remainingRoom = account.contributionLimit - account.contributedThisYear
+          const availableRoom = account.contributionLimit - account.lifetimeContributions
           
           return (
             <Card key={account.type}>
-              <CardHeader>
-                <CardTitle>{account.type}</CardTitle>
+              <CardHeader className="pb-6">
+                <CardTitle className="text-sm text-muted-foreground">{account.type}</CardTitle>
                 <div className="text-2xl">
                   <FormattedAmount value={account.balance} />
                 </div>
               </CardHeader>
               
               <CardContent className="space-y-6">
-                <div className="space-y-1">
-                  <div className="flex justify-between text-sm">
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm mb-3">
                     <span className="text-muted-foreground">This Year</span>
                     <span>
                       <FormattedAmount value={account.contributedThisYear} /> / <FormattedAmount value={account.yearlyLimit} />
@@ -78,35 +78,33 @@ export function TaxAccountsWidget({ accounts }: { accounts: TaxAccount[] }) {
                   <Progress 
                     value={(account.contributedThisYear / account.yearlyLimit) * 100} 
                     className="h-2"
-                    indicatorClassName={`bg-[${styles.color}]`}
+                    style={{ 
+                      backgroundColor: 'rgb(244 244 245)',  // zinc-100
+                    }}
+                    indicatorClassName="transition-all"
+                    indicatorStyle={{ 
+                      backgroundColor: styles.color 
+                    }}
                   />
                 </div>
 
-                <div className="space-y-2 text-sm">
+                <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Total Room</span>
-                    <span>
-                      <FormattedAmount value={account.contributionLimit} />
-                    </span>
+                    <span><FormattedAmount value={account.contributionLimit} /></span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Lifetime Contributions</span>
-                    <span>
-                      <FormattedAmount value={account.lifetimeContributions} />
-                    </span>
+                    <span><FormattedAmount value={account.lifetimeContributions} /></span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Available Room</span>
-                    <span className="font-medium">
-                      <FormattedAmount value={remainingRoom} />
-                    </span>
+                    <span><FormattedAmount value={availableRoom} /></span>
                   </div>
                   {account.carryForward && (
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Carry Forward</span>
-                      <span>
-                        <FormattedAmount value={account.carryForward} />
-                      </span>
+                      <span><FormattedAmount value={account.carryForward} /></span>
                     </div>
                   )}
                 </div>
@@ -117,4 +115,4 @@ export function TaxAccountsWidget({ accounts }: { accounts: TaxAccount[] }) {
       </div>
     </div>
   )
-} 
+}
